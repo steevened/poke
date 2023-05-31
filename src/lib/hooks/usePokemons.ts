@@ -28,4 +28,8 @@ const usePokemonByName = (name: string) => {
   };
 };
 
-export { usePokemons, usePokemonByName };
+const usePokemonTypes = (name: string) => {
+  const { data, error, isLoading } = useSWR(`/type/${name}/`);
+};
+
+export { usePokemons, usePokemonByName, usePokemonTypes };

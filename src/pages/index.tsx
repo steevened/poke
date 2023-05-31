@@ -12,7 +12,7 @@ const Home: NextPageWithLayout = () => {
     <main className="">
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {pokemons?.map(({ name, url }) => (
-          <PokemonCard key={url} name={name} />
+          <PokemonCard key={url} name={name} url={url} />
         ))}
       </ul>
     </main>
