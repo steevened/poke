@@ -28,6 +28,6 @@ body {
 
 @layer utilities {
   .test {
-    @apply border border-red-500;
+    @apply border border-white;
   }
 }
