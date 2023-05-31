@@ -1,9 +1,7 @@
 import { usePokemons } from '@/lib/hooks';
 import { NextPageWithLayout } from './_app';
 import Layout from '@/components/Layout';
-import Image from 'next/image';
 import PokemonCard from '@/components/PokemonCard';
-import Pagination from '@/components/Pagination';
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { Button } from '@material-tailwind/react';
@@ -17,12 +15,11 @@ const Home: NextPageWithLayout = () => {
     setOffset(data.selected * 20);
   };
 
-  console.log(offset);
   return (
-    <main className="py-5 ">
-      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <main className="py-5 min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full flex flex-col">
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 grow">
         {pokemons?.results?.map(({ name, url }) => (
-          <PokemonCard key={url} name={name} url={url} />
+          <PokemonCard key={url} name={name} />
         ))}
       </ul>
       <div className=" mt-5">
@@ -61,7 +58,7 @@ const Home: NextPageWithLayout = () => {
               size="sm"
               variant="text"
               color="white"
-              // disabled={offset === 0}
+              disabled={pokemons ? offset > pokemons?.count - 20 : false}
               className={`flex items-center `}
             >
               <span className="hidden sm:block">Next</span>
