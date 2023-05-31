@@ -4,13 +4,13 @@ import {
   PokemonsResponse,
 } from '../interface/pokemons.interface';
 
-const usePokemons = (offset = 0, limit = 20) => {
+const usePokemons = (offset = 0) => {
   const { data, error, isLoading } = useSWR<PokemonsResponse>(
-    `/pokemon?offset=${offset}&limit=${limit}`
+    `/pokemon?offset=${offset}&limit=20`
   );
 
   return {
-    pokemons: data?.results,
+    pokemons: data,
     error,
     isLoading,
   };

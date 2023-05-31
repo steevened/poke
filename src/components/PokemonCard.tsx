@@ -11,7 +11,6 @@ interface PokemonCardProps {
 const PokemonCard: FC<PokemonCardProps> = ({ name, url }) => {
   const [pokemonId] = useState(url.split('/')[url.split('/').length - 2]);
 
-  console.log(url.split('/')[url.split('/').length - 2]);
   return (
     <li className="flex items-center justify-between p-4 font-semibold rounded-md shadow-lg bg-blue-gray-50 text-blue-gray-900 relative">
       <div className="h-full flex flex-col justify-between">
