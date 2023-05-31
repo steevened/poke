@@ -12,7 +12,7 @@ const PokemonCard: FC<PokemonCardProps> = ({ name }) => {
   console.log(pokemon);
 
   return (
-    <li className="flex p-4 font-semibold rounded-md shadow-lg bg-blue-gray-50 text-blue-gray-900">
+    <li className="flex items-center justify-between p-4 font-semibold rounded-md shadow-lg bg-blue-gray-50 text-blue-gray-900">
       <div>
         <p className="text-sm">Nº {pokemon?.id}</p>
         <h2 className="text-2xl capitalize">{pokemon?.name}</h2>
@@ -29,8 +29,10 @@ const PokemonCard: FC<PokemonCardProps> = ({ name }) => {
       </div>
       <div>
         <Image
-          src={pokemon?.sprites.front_default}
+          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${pokemon?.id}.svg`}
           alt={`pokemon ${pokemon?.name}`}
+          width={200}
+          height={200}
         />
       </div>
     </li>
