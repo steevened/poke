@@ -40,7 +40,9 @@ const Layout: FC<PropsWithChildren> = ({ children }) => {
           </div>
         </div>
       </nav>
-      <div className="px-2 pt-32">{children}</div>
+      <div className="px-2 pt-32 md:pt-16 w-full max-w-6xl mx-auto">
+        {children}
+      </div>
     </section>
   );
 };

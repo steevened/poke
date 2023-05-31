@@ -27,7 +27,14 @@ body {
 }
 
 @layer utilities {
-  .test {
+  .white {
     @apply border border-white;
+  }
+  .red {
+    @apply border border-red-500;
+  }
+
+  .blue {
+    @apply border border-blue-500;
   }
 }

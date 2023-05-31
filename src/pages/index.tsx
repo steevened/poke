@@ -9,8 +9,8 @@ const Home: NextPageWithLayout = () => {
 
   // console.log(pokemons);
   return (
-    <main className="">
-      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <main className="mt-5 ">
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {pokemons?.map(({ name, url }) => (
           <PokemonCard key={url} name={name} url={url} />
         ))}
