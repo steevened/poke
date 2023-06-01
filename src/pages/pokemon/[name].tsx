@@ -39,10 +39,15 @@ const PokemonPage: NextPageWithLayout = () => {
 
     if (isInFavorites) return;
   };
-  if (isLoading || !pokemon) return <div>Loading...</div>;
+  if (isLoading || !pokemon)
+    return (
+      <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5">
+        Loading...
+      </div>
+    );
 
   return (
-    <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full ">
+    <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5">
       <div className="flex items-center justify-between mt-5 font-bold text ">
         <Button
           size="sm"
@@ -134,9 +139,8 @@ const PokemonPage: NextPageWithLayout = () => {
               <Tooltip content={`${base_stat}%`} key={i}>
                 <div className="flex flex-col items-start gap-2 p-2 text-sm duration-100 bg-white rounded-md shadow-md text-blue-gray-700 hover:scale-105">
                   <span className="capitalize">{stat.name}</span>
-                  {/* do a radial range representing the stat */}
+
                   <div className="relative w-full h-2 rounded-full bg-blue-gray-200">
-                    {/* <Tooltip content={`${base_stat}%`}> */}
                     <span
                       className={`absolute top-0 left-0 h-full rounded-full ${
                         base_stat > 50
@@ -149,7 +153,6 @@ const PokemonPage: NextPageWithLayout = () => {
                         width: base_stat > 100 ? '100%' : `${base_stat}%`,
                       }}
                     />
-                    {/* </Tooltip> */}
                   </div>
                 </div>
               </Tooltip>
