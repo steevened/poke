@@ -15,25 +15,31 @@ import {
 import { Type } from '@/components/PokemonCard';
 import localFavorites from '@/lib/utils/localFavorites';
 import defaultImage from '/public/image.png';
+import { usePokemonByName } from '@/lib/hooks';
 
-interface Props {
-  pokemon: PokemonItemResponse;
-}
+// interface Props {
+//   pokemon: PokemonItemResponse;
+// }
 
-const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
-  const [isInFavorites, setIsInFavorites] = useState(
-    localFavorites.isOnFavorites(pokemon.name)
-  );
-  console.log(pokemon);
+const PokemonPage: NextPageWithLayout = () => {
   const router = useRouter();
+  const { name } = router.query;
+
+  const { pokemon, error, isLoading } = usePokemonByName(name as string);
+  // console.log(pokemon);
+
+  const [isInFavorites, setIsInFavorites] = useState(
+    localFavorites.isOnFavorites(pokemon?.name || '')
+  );
 
   const onToggleFavorite = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    localFavorites.toggleFavorite(pokemon.name);
+    localFavorites.toggleFavorite(pokemon?.name || '');
     setIsInFavorites(!isInFavorites);
 
     if (isInFavorites) return;
   };
+  if (isLoading || !pokemon) return <div>Loading...</div>;
 
   return (
     <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full ">
@@ -46,7 +52,7 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
         >
           <ArrowIcon />
         </Button>
-        <h2 className="text-3xl capitalize">{pokemon.name}</h2>
+        <h2 className="text-3xl capitalize">{pokemon?.name}</h2>
         <button
           onClick={onToggleFavorite}
           className="p-1 duration-100 text-blue-gray-50 w-min hover:scale-110"
@@ -155,27 +161,27 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const { name } = params as { name: string };
-  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-  const pokemon = await res.json();
+// export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+//   const { name } = params as { name: string };
+//   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+//   const pokemon = await res.json();
 
-  if (!pokemon) {
-    return {
-      notFound: true,
-    };
-  }
+//   if (!pokemon) {
+//     return {
+//       notFound: true,
+//     };
+//   }
 
-  return {
-    props: {
-      pokemon,
-    },
-  };
-};
+//   return {
+//     props: {
+//       pokemon,
+//     },
+//   };
+// };
 
 PokemonPage.getLayout = (page) => {
   console.log(page);
-  return <Layout title={page.props.pokemon.name}>{page}</Layout>;
+  return <Layout title={page.props.pokemon?.name}>{page}</Layout>;
 };
 
 export default PokemonPage;
