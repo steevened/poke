@@ -147,18 +147,6 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
                 </div>
               </Tooltip>
             ))}
-            {/* <div className="grid grid-cols-2 gap-5 mt-5 ">
-              {pokemon.stats.map(({ base_stat, stat }) => (
-                <div key={stat.name}>
-                <div className="flex items-center gap-2 text-sm text-blue-gray-700">
-                    <span>{stat.name}</span>
-                  </div>
-                  <div className="p-3 text-center border border-opacity-50 rounded-lg border-blue-gray-500">
-                    {base_stat}
-                  </div>
-                </div>
-              ))}
-            </div> */}
           </div>
         </div>
       </div>
@@ -172,7 +160,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   return {
     props: {
-      pokemon: await res.json(),
+      pokemon: JSON.parse(JSON.stringify(await res.json())),
     },
   };
 };
