@@ -1,6 +1,6 @@
 import { usePokemonByName } from '@/lib/hooks';
 import Image from 'next/image';
-import { FC, MouseEventHandler, useState } from 'react';
+import { FC, MouseEvent, MouseEventHandler, useState } from 'react';
 import { BigPokeBallIcon, StartIcon } from './svg/Svg';
 import { useRouter } from 'next/router';
 import defaultImage from '/public/image.png';

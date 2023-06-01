@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, MouseEvent, useState } from 'react';
 import { NextPageWithLayout } from '../_app';
 import Layout from '@/components/Layout';
 import { useRouter } from 'next/router';
@@ -32,14 +32,6 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
     setIsInFavorites(!isInFavorites);
 
     if (isInFavorites) return;
-
-    // confetti({
-    //   zIndex: 999,
-    //   particleCount: 100,
-    //   spread: 200,
-    //   angle: -100,
-    //   origin: { x: 0.9, y: 0.2 },
-    // });
   };
 
   return (
