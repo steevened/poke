@@ -15,14 +15,15 @@ const Home: NextPageWithLayout = () => {
     setOffset(data.selected * 20);
   };
 
-  if (isLoading || !pokemons)
-    return (
-      <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5 flex items-center justify-center">
-        <div className="animate-spin">
-          <BigPokeBallIcon />
-        </div>
-      </div>
-    );
+  // if (isLoading || !pokemons) {
+  //   return (
+  //     <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5 flex items-center justify-center">
+  //       <div className="animate-spin">
+  //         <BigPokeBallIcon />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   return (
     <main className="py-5 min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full flex flex-col">
