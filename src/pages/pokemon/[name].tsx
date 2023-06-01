@@ -108,15 +108,13 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
           <h3>Base Stats</h3>
           <div className="mt-5 space-y-2">
             {pokemon.stats.map(({ base_stat, stat }) => (
-              <div
-                key={base_stat}
-                className="flex flex-col items-start gap-2 p-2 text-sm bg-white rounded-md shadow-md text-blue-gray-700"
-              >
-                <span className="capitalize">{stat.name}</span>
-                {/* do a radial range representing the stat */}
-                <div className="relative w-full h-2 rounded-full bg-blue-gray-200">
-                  <Tooltip content={`${base_stat}%`}>
-                    <div
+              <Tooltip content={`${base_stat}%`} key={base_stat}>
+                <div className="flex flex-col items-start gap-2 p-2 text-sm bg-white rounded-md shadow-md text-blue-gray-700">
+                  <span className="capitalize">{stat.name}</span>
+                  {/* do a radial range representing the stat */}
+                  <div className="relative w-full h-2 rounded-full bg-blue-gray-200">
+                    {/* <Tooltip content={`${base_stat}%`}> */}
+                    <span
                       className={`absolute top-0 left-0 h-full rounded-full ${
                         base_stat > 50
                           ? 'bg-green-500'
@@ -127,10 +125,11 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
                       style={{
                         width: base_stat > 100 ? '100%' : `${base_stat}%`,
                       }}
-                    ></div>
-                  </Tooltip>
+                    />
+                    {/* </Tooltip> */}
+                  </div>
                 </div>
-              </div>
+              </Tooltip>
             ))}
             {/* <div className="grid grid-cols-2 gap-5 mt-5 ">
               {pokemon.stats.map(({ base_stat, stat }) => (

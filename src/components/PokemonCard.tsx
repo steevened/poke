@@ -45,7 +45,7 @@ const PokemonCard: FC<PokemonCardProps> = ({ name }) => {
     <li
       role="button"
       onClick={() => router.push(`/pokemon/${name}`)}
-      className="flex h-full min-h-[192px] max-h-56 items-center justify-between p-4 font-semibold rounded-md shadow-lg bg-blue-gray-50 text-blue-gray-900 relative"
+      className="flex h-full min-h-[192px] max-h-56 items-center justify-between p-4 font-semibold rounded-md shadow-lg bg-blue-gray-50 text-blue-gray-900 relative hover:scale-105 hover:shadow-2xl hover:shadow-black/50 duration-100"
     >
       <div className="flex flex-col justify-between h-full">
         <div>
@@ -70,7 +70,10 @@ const PokemonCard: FC<PokemonCardProps> = ({ name }) => {
             </div>
           </div>
         </div>
-        <button className="p-1 text-red-900 w-min">
+        <button
+          onClick={(e) => e.stopPropagation()}
+          className="p-1 text-red-900 duration-100 w-min hover:scale-110"
+        >
           <StartIcon />
         </button>
       </div>
