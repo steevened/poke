@@ -159,6 +159,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
   const pokemon = await res.json();
 
+  if (!pokemon) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       pokemon,
