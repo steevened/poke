@@ -2,7 +2,7 @@
 Poke App
 ---
 
-This project is a web application built with React that displays information about Pokemon. It uses the PokeAPI to fetch data about Pokemon and displays it in a user-friendly way.
+This project is a web application built with NextJs and TypeScript that displays information about Pokemon. It uses the PokeAPI to fetch data about Pokemon and displays it in a user-friendly way.
 
 ## Installation
 
