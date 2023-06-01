@@ -1,9 +1,10 @@
 import { usePokemonByName } from '@/lib/hooks';
 import Image from 'next/image';
-import { FC, useState } from 'react';
-import { BigPokeBallIcon, PokeBallIcon, StartIcon } from './svg/Svg';
+import { FC, MouseEventHandler, useState } from 'react';
+import { BigPokeBallIcon, StartIcon } from './svg/Svg';
 import { useRouter } from 'next/router';
 import defaultImage from '/public/image.png';
+import localFavorites from '@/lib/utils/localFavorites';
 
 interface PokemonCardProps {
   name: string;
@@ -37,9 +38,29 @@ export const Type: IType = {
 };
 
 const PokemonCard: FC<PokemonCardProps> = ({ name }) => {
+  const [isInFavorites, setIsInFavorites] = useState(
+    localFavorites.isOnFavorites(name)
+  );
+
   const router = useRouter();
 
   const { pokemon, error, isLoading } = usePokemonByName(name);
+
+  const onToggleFavorite = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    localFavorites.toggleFavorite(name);
+    setIsInFavorites(!isInFavorites);
+
+    if (isInFavorites) return;
+
+    // confetti({
+    //   zIndex: 999,
+    //   particleCount: 100,
+    //   spread: 200,
+    //   angle: -100,
+    //   origin: { x: 0.9, y: 0.2 },
+    // });
+  };
 
   return (
     <li
@@ -71,10 +92,10 @@ const PokemonCard: FC<PokemonCardProps> = ({ name }) => {
           </div>
         </div>
         <button
-          onClick={(e) => e.stopPropagation()}
-          className="p-1 text-red-900 duration-100 w-min hover:scale-110"
+          onClick={onToggleFavorite}
+          className="p-1 text-red-900 duration-100 w-min hover:scale-110 active:scale-100 active:animate-ping"
         >
-          <StartIcon />
+          <StartIcon solid={isInFavorites} />
         </button>
       </div>
       <div>

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { NextPageWithLayout } from '../_app';
 import Layout from '@/components/Layout';
 import { useRouter } from 'next/router';
@@ -13,14 +13,35 @@ import {
   WeightIcon,
 } from '@/components/svg/Svg';
 import { Type } from '@/components/PokemonCard';
+import localFavorites from '@/lib/utils/localFavorites';
 
 interface Props {
   pokemon: PokemonItemResponse;
 }
 
 const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
+  const [isInFavorites, setIsInFavorites] = useState(
+    localFavorites.isOnFavorites(pokemon.name)
+  );
   console.log(pokemon);
   const router = useRouter();
+
+  const onToggleFavorite = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    localFavorites.toggleFavorite(pokemon.name);
+    setIsInFavorites(!isInFavorites);
+
+    if (isInFavorites) return;
+
+    // confetti({
+    //   zIndex: 999,
+    //   particleCount: 100,
+    //   spread: 200,
+    //   angle: -100,
+    //   origin: { x: 0.9, y: 0.2 },
+    // });
+  };
+
   return (
     <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full ">
       <div className="flex items-center justify-between mt-5 font-bold text ">
@@ -33,8 +54,11 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
           <ArrowIcon />
         </Button>
         <h2 className="text-3xl capitalize">{pokemon.name}</h2>
-        <button className="p-1 text-blue-gray-50 w-min">
-          <StartIcon />
+        <button
+          onClick={onToggleFavorite}
+          className="p-1 duration-100 text-blue-gray-50 w-min hover:scale-110"
+        >
+          <StartIcon solid={isInFavorites} />
         </button>
       </div>
       <div className="relative z-50 flex items-center w-full max-w-2xl mx-auto">
@@ -79,22 +103,22 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
         </div>
 
         <div className="grid grid-cols-2 gap-5 mt-5 ">
-          <div>
+          <div className="space-y-2">
             <div className="flex items-center gap-2 text-sm text-blue-gray-700">
               <WeightIcon />
               <span>Weight</span>
             </div>
-            <div className="p-3 text-center border border-opacity-50 rounded-lg border-blue-gray-500">
+            <div className="p-3 text-center bg-white rounded-md shadow-md text-blue-gray-700">
               {pokemon.weight} KG
             </div>
           </div>
 
-          <div>
+          <div className="space-y-2">
             <div className="flex items-center gap-2 text-sm text-blue-gray-700">
               <HeightIcon />
               <span>Height</span>
             </div>
-            <div className="p-3 text-center border border-opacity-50 rounded-lg border-blue-gray-500">
+            <div className="p-3 text-center bg-white rounded-md shadow-md text-blue-gray-700">
               {pokemon.height.toString().length > 1
                 ? pokemon.height.toString().slice(0, 1) +
                   '.' +
@@ -107,9 +131,9 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
         <div className="mt-5 text-lg font-bold text-center">
           <h3>Base Stats</h3>
           <div className="mt-5 space-y-2">
-            {pokemon.stats.map(({ base_stat, stat }) => (
-              <Tooltip content={`${base_stat}%`} key={base_stat}>
-                <div className="flex flex-col items-start gap-2 p-2 text-sm bg-white rounded-md shadow-md text-blue-gray-700">
+            {pokemon.stats.map(({ base_stat, stat }, i) => (
+              <Tooltip content={`${base_stat}%`} key={i}>
+                <div className="flex flex-col items-start gap-2 p-2 text-sm duration-100 bg-white rounded-md shadow-md text-blue-gray-700 hover:scale-105">
                   <span className="capitalize">{stat.name}</span>
                   {/* do a radial range representing the stat */}
                   <div className="relative w-full h-2 rounded-full bg-blue-gray-200">
