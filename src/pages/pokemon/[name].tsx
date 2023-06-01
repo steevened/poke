@@ -157,10 +157,11 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { name } = params as { name: string };
   const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  const pokemon = await res.json();
 
   return {
     props: {
-      pokemon: JSON.parse(JSON.stringify(await res.json())),
+      pokemon,
     },
   };
 };
