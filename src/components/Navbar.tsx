@@ -43,7 +43,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
         role="button"
       >
         <PokeBallIcon />
-        <span className="text-2xl font-bold">Pokedex</span>
+        <span className="text-lg font-bold md:text-2xl">Pokedex</span>
       </Button>
       <Button
         variant="text"
@@ -53,7 +53,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
         role="button"
       >
         {router.pathname === '/favorites' ? <StartIcon solid /> : <StartIcon />}
-        <span className="text-2xl font-bold">Favorites</span>
+        <span className="text-lg font-bold md:text-2xl">Favorites</span>
       </Button>
       <div className="relative col-span-4 md:col-span-2 md:col-start-2 md:row-start-1">
         <input
