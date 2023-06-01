@@ -8,6 +8,7 @@ import { Button, Carousel, Tooltip } from '@material-tailwind/react';
 import Image from 'next/image';
 import {
   ArrowIcon,
+  BigPokeBallIcon,
   HeightIcon,
   StartIcon,
   WeightIcon,
@@ -41,8 +42,10 @@ const PokemonPage: NextPageWithLayout = () => {
   };
   if (isLoading || !pokemon)
     return (
-      <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5">
-        Loading...
+      <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5 flex items-center justify-center">
+        <div className="animate-spin">
+          <BigPokeBallIcon />
+        </div>
       </div>
     );
 
@@ -65,7 +68,7 @@ const PokemonPage: NextPageWithLayout = () => {
           <StartIcon solid={isInFavorites} />
         </button>
       </div>
-      <div className="relative z-50 flex items-center w-full max-w-2xl mx-auto">
+      <div className="relative z-10 flex items-center w-full max-w-2xl mx-auto">
         <Carousel
           className=""
           transition={{ duration: 0.5 }}

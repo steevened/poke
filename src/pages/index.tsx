@@ -5,7 +5,7 @@ import PokemonCard from '@/components/PokemonCard';
 import { useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { Button } from '@material-tailwind/react';
-import { ArrowIcon } from '@/components/svg/Svg';
+import { ArrowIcon, BigPokeBallIcon } from '@/components/svg/Svg';
 
 const Home: NextPageWithLayout = () => {
   const [offset, setOffset] = useState(0);
@@ -15,6 +15,15 @@ const Home: NextPageWithLayout = () => {
     setOffset(data.selected * 20);
   };
 
+  if (isLoading || !pokemons)
+    return (
+      <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5 flex items-center justify-center">
+        <div className="animate-spin">
+          <BigPokeBallIcon />
+        </div>
+      </div>
+    );
+
   return (
     <main className="py-5 min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full flex flex-col">
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 grow">
@@ -22,7 +31,7 @@ const Home: NextPageWithLayout = () => {
           <PokemonCard key={url} name={name} />
         ))}
       </ul>
-      <div className=" mt-5">
+      <div className="mt-5 ">
         <ReactPaginate
           pageCount={pokemons ? pokemons?.count / 20 : 65}
           containerClassName="flex justify-center items-center mx-auto sm:gap-1"
@@ -36,7 +45,7 @@ const Home: NextPageWithLayout = () => {
               variant="text"
               size="sm"
               color="white"
-              className="w-8 h-8 flex items-center justify-center rounded-md"
+              className="flex items-center justify-center w-8 h-8 rounded-md"
             >
               ...
             </Button>
