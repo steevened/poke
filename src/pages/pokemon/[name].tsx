@@ -14,6 +14,7 @@ import {
 } from '@/components/svg/Svg';
 import { Type } from '@/components/PokemonCard';
 import localFavorites from '@/lib/utils/localFavorites';
+import defaultImage from '/public/image.png';
 
 interface Props {
   pokemon: PokemonItemResponse;
@@ -67,7 +68,7 @@ const PokemonPage: NextPageWithLayout<Props> = ({ pokemon }) => {
                 src={
                   pokemon.sprites.other?.['official-artwork'][
                     key as keyof (typeof pokemon.sprites.other)['official-artwork']
-                  ]!
+                  ]! || defaultImage
                 }
                 alt="pokemon"
                 width={300}
