@@ -113,38 +113,11 @@ const PokemonPage: NextPageWithLayout = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-2 gap-5 mt-5 ">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm text-blue-gray-700">
-              <WeightIcon />
-              <span>Weight</span>
-            </div>
-            <div className="p-3 italic font-semibold text-center bg-white rounded-md shadow-md text-blue-gray-700">
-              {pokemon.weight} KG
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm text-blue-gray-700">
-              <HeightIcon />
-              <span>Height</span>
-            </div>
-            <div className="p-3 italic font-semibold text-center bg-white rounded-md shadow-md text-blue-gray-700">
-              {pokemon.height.toString().length > 1
-                ? pokemon.height.toString().slice(0, 1) +
-                  '.' +
-                  pokemon.height.toString().slice(1)
-                : '0.' + pokemon.height}{' '}
-              M
-            </div>
-          </div>
-        </div>
-
         {/* about */}
 
         {specie && (
           <>
-            <div className="mt-5 p-2.5 rounded-md shadow-md bg-white">
+            <div className="px-2 py-5 mt-5 bg-white rounded-md shadow-md">
               <p className="text-center">
                 {
                   specie?.flavor_text_entries.filter(
@@ -191,6 +164,33 @@ const PokemonPage: NextPageWithLayout = () => {
             </div>
           </>
         )}
+
+        <div className="grid grid-cols-2 gap-5 mt-5 ">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm text-blue-gray-700">
+              <WeightIcon />
+              <span>Weight</span>
+            </div>
+            <div className="p-3 italic font-semibold text-center bg-white rounded-md shadow-md text-blue-gray-700">
+              {pokemon.weight} KG
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm text-blue-gray-700">
+              <HeightIcon />
+              <span>Height</span>
+            </div>
+            <div className="p-3 italic font-semibold text-center bg-white rounded-md shadow-md text-blue-gray-700">
+              {pokemon.height.toString().length > 1
+                ? pokemon.height.toString().slice(0, 1) +
+                  '.' +
+                  pokemon.height.toString().slice(1)
+                : '0.' + pokemon.height}{' '}
+              M
+            </div>
+          </div>
+        </div>
 
         <div className="mt-5 text-lg font-bold text-center">
           <h3>Base Stats</h3>
