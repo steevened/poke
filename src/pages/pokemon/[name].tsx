@@ -68,6 +68,22 @@ const PokemonPage: NextPageWithLayout = () => {
     );
   }
 
+  if (error) {
+    return (
+      <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5 flex items-center justify-center">
+        <p>Something wrong</p>
+      </div>
+    );
+  }
+
+  if (error && errorSpecie && relatedError) {
+    return (
+      <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5 flex items-center justify-center">
+        <p>Something wrong</p>
+      </div>
+    );
+  }
+
   // console.log(related);
 
   return (
