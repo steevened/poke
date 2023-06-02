@@ -58,7 +58,7 @@ const PokemonPage: NextPageWithLayout = () => {
     if (isInFavorites) return;
   };
 
-  if (isLoading || loadingRelated || loadingSpecie) {
+  if (isLoading || loadingRelated || loadingSpecie || router.isFallback) {
     return (
       <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5 flex items-center justify-center">
         <div className="animate-spin">
