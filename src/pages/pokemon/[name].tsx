@@ -9,14 +9,16 @@ import Image from 'next/image';
 import {
   ArrowIcon,
   BigPokeBallIcon,
+  FaceIcon,
+  GrowIcon,
   HeightIcon,
   StartIcon,
   WeightIcon,
 } from '@/components/svg/Svg';
 import { Type } from '@/components/PokemonCard';
 import localFavorites from '@/lib/utils/localFavorites';
-import defaultImage from '/public/image.png';
-import { usePokemonByName } from '@/lib/hooks';
+import defaultImage from '/public/image.svg';
+import { usePokemonByName, usePokemonBySpecie } from '@/lib/hooks';
 
 // interface Props {
 //   pokemon: PokemonItemResponse;
@@ -27,7 +29,7 @@ const PokemonPage: NextPageWithLayout = () => {
   const { name } = router.query;
 
   const { pokemon, error, isLoading } = usePokemonByName(name as string);
-  // console.log(pokemon);
+  const { specie } = usePokemonBySpecie(pokemon?.id as number);
 
   const [isInFavorites, setIsInFavorites] = useState(
     localFavorites.isOnFavorites(pokemon?.name || '')
@@ -48,6 +50,8 @@ const PokemonPage: NextPageWithLayout = () => {
         </div>
       </div>
     );
+
+  console.log(specie);
 
   return (
     <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5">
@@ -87,7 +91,7 @@ const PokemonPage: NextPageWithLayout = () => {
                 alt="pokemon"
                 width={300}
                 height={300}
-                className="flex object-contain mx-auto "
+                className="flex object-contain mx-auto drop-shadow-lg"
               />
             )
           )}
@@ -115,7 +119,7 @@ const PokemonPage: NextPageWithLayout = () => {
               <WeightIcon />
               <span>Weight</span>
             </div>
-            <div className="p-3 text-center bg-white rounded-md shadow-md text-blue-gray-700">
+            <div className="p-3 italic font-semibold text-center bg-white rounded-md shadow-md text-blue-gray-700">
               {pokemon.weight} KG
             </div>
           </div>
@@ -125,7 +129,7 @@ const PokemonPage: NextPageWithLayout = () => {
               <HeightIcon />
               <span>Height</span>
             </div>
-            <div className="p-3 text-center bg-white rounded-md shadow-md text-blue-gray-700">
+            <div className="p-3 italic font-semibold text-center bg-white rounded-md shadow-md text-blue-gray-700">
               {pokemon.height.toString().length > 1
                 ? pokemon.height.toString().slice(0, 1) +
                   '.' +
@@ -135,6 +139,59 @@ const PokemonPage: NextPageWithLayout = () => {
             </div>
           </div>
         </div>
+
+        {/* about */}
+
+        {specie && (
+          <>
+            <div className="mt-5 p-2.5 rounded-md shadow-md bg-white">
+              <p className="text-center">
+                {
+                  specie?.flavor_text_entries.filter(
+                    (item) => item.language.name === 'en'
+                  )[1].flavor_text
+                }
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-5 mt-5 ">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-blue-gray-700">
+                  <FaceIcon />
+                  <span>Base Happiness</span>
+                </div>
+                <div
+                  className={`relative p-3 text-center bg-white rounded-md shadow-md text-blue-gray-700 `}
+                >
+                  <p className="sticky z-10 italic font-semibold">
+                    {specie.base_happiness}%
+                  </p>
+                  <div
+                    className="absolute top-0 left-0 z-0 w-full h-full bg-yellow-500/40 }"
+                    style={{
+                      width: `${specie.base_happiness}%`,
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-sm text-blue-gray-700">
+                  <GrowIcon />
+                  <span>Grow Rate</span>
+                </div>
+                <div
+                  className={`relative p-3 text-center bg-white rounded-md shadow-md text-blue-gray-700 `}
+                >
+                  <p className="sticky z-10 italic font-semibold capitalize">
+                    {specie.growth_rate.name}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
         <div className="mt-5 text-lg font-bold text-center">
           <h3>Base Stats</h3>
           <div className="mt-5 space-y-2">
@@ -186,7 +243,6 @@ const PokemonPage: NextPageWithLayout = () => {
 // };
 
 PokemonPage.getLayout = (page) => {
-  console.log(page);
   return <Layout title={page.props.pokemon?.name}>{page}</Layout>;
 };
 

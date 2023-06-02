@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { FC, MouseEvent, MouseEventHandler, useState } from 'react';
 import { BigPokeBallIcon, StartIcon } from './svg/Svg';
 import { useRouter } from 'next/router';
-import defaultImage from '/public/image.png';
+import defaultImage from '/public/image.svg';
 import localFavorites from '@/lib/utils/localFavorites';
 
 interface PokemonCardProps {

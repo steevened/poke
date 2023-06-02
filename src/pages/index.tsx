@@ -26,13 +26,13 @@ const Home: NextPageWithLayout = () => {
   // }
 
   return (
-    <main className="py-5 min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full flex flex-col">
+    <main className="py-10 min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full flex flex-col">
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 grow">
         {pokemons?.results?.map(({ name, url }) => (
           <PokemonCard key={url} name={name} />
         ))}
       </ul>
-      <div className="mt-5 ">
+      <div className="mt-10 ">
         <ReactPaginate
           pageCount={pokemons ? pokemons?.count / 20 : 65}
           containerClassName="flex justify-center items-center mx-auto sm:gap-1"
