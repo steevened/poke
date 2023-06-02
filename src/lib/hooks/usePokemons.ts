@@ -2,6 +2,7 @@ import useSWR from 'swr';
 import {
   PokemonItemResponse,
   PokemonsResponse,
+  RelatedResponse,
   SpecieResponse,
 } from '../interface/pokemons.interface';
 
@@ -41,8 +42,21 @@ const usePokemonBySpecie = (id: number) => {
   };
 };
 
-const usePokemonTypes = (name: string) => {
-  const { data, error, isLoading } = useSWR(`/type/${name}/`);
+const useRelatedPokemons = (name?: string) => {
+  const { data, error, isLoading } = useSWR<RelatedResponse>(
+    name ? `/egg-group/${name}` : null
+  );
+
+  return {
+    related: data,
+    error,
+    isLoading,
+  };
 };
 
-export { usePokemons, usePokemonByName, usePokemonTypes, usePokemonBySpecie };
+export {
+  usePokemons,
+  usePokemonByName,
+  usePokemonBySpecie,
+  useRelatedPokemons,
+};

@@ -14,7 +14,7 @@ To install this project, you'll need to have Node.js and npm installed on your c
 
 ## Usage
 
-To start the project, run `npm start` in your terminal. This will start a development server and open the project in your default web browser.
+To start the project, run `npm run dev` in your terminal. This will start a development server and open the project in your default web browser.
 
 ## Contributing
 

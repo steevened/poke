@@ -15,10 +15,15 @@ import {
   StartIcon,
   WeightIcon,
 } from '@/components/svg/Svg';
-import { Type } from '@/components/PokemonCard';
+import PokemonCard, { Type } from '@/components/PokemonCard';
 import localFavorites from '@/lib/utils/localFavorites';
 import defaultImage from '/public/image.svg';
-import { usePokemonByName, usePokemonBySpecie } from '@/lib/hooks';
+import {
+  usePokemonByName,
+  usePokemonBySpecie,
+  useRelatedPokemons,
+} from '@/lib/hooks';
+import Link from 'next/link';
 
 // interface Props {
 //   pokemon: PokemonItemResponse;
@@ -29,7 +34,17 @@ const PokemonPage: NextPageWithLayout = () => {
   const { name } = router.query;
 
   const { pokemon, error, isLoading } = usePokemonByName(name as string);
-  const { specie } = usePokemonBySpecie(pokemon?.id as number);
+  const {
+    specie,
+    isLoading: loadingSpecie,
+    error: errorSpecie,
+  } = usePokemonBySpecie(pokemon?.id as number);
+
+  const {
+    isLoading: loadingRelated,
+    error: relatedError,
+    related,
+  } = useRelatedPokemons(specie?.egg_groups[0].name as string);
 
   const [isInFavorites, setIsInFavorites] = useState(
     localFavorites.isOnFavorites(pokemon?.name || '')
@@ -42,7 +57,8 @@ const PokemonPage: NextPageWithLayout = () => {
 
     if (isInFavorites) return;
   };
-  if (isLoading || !pokemon)
+
+  if (isLoading || loadingRelated || loadingSpecie) {
     return (
       <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5 flex items-center justify-center">
         <div className="animate-spin">
@@ -50,8 +66,9 @@ const PokemonPage: NextPageWithLayout = () => {
         </div>
       </div>
     );
+  }
 
-  console.log(specie);
+  // console.log(related);
 
   return (
     <div className="min-h-[calc(100vh-128px)] md:min-h-[calc(100vh-65px)] h-full py-5">
@@ -79,28 +96,31 @@ const PokemonPage: NextPageWithLayout = () => {
           autoplay
           navigation={false as any}
         >
-          {Object.keys(pokemon.sprites.other!['official-artwork']).map(
-            (key) => (
-              <Image
-                key={key}
-                src={
-                  pokemon.sprites.other?.['official-artwork'][
-                    key as keyof (typeof pokemon.sprites.other)['official-artwork']
-                  ]! || defaultImage
-                }
-                alt="pokemon"
-                width={300}
-                height={300}
-                className="flex object-contain mx-auto drop-shadow-lg"
-              />
-            )
-          )}
+          {pokemon &&
+            pokemon.sprites &&
+            pokemon.sprites.other &&
+            Object.keys(pokemon.sprites.other['official-artwork']).map(
+              (key) => (
+                <Image
+                  key={key}
+                  src={
+                    pokemon?.sprites.other?.['official-artwork'][
+                      key as keyof (typeof pokemon.sprites.other)['official-artwork']
+                    ]! || defaultImage
+                  }
+                  alt="pokemon"
+                  width={300}
+                  height={300}
+                  className="flex object-contain mx-auto drop-shadow-lg"
+                />
+              )
+            )}
         </Carousel>
       </div>
 
       <div className="z-0 p-5 rounded-md pt-14 -translate-y-14 bg-blue-gray-50 text-blue-gray-900">
         <div className="flex items-center justify-center gap-5 ">
-          {pokemon.types.map(({ type }) => (
+          {pokemon?.types.map(({ type }) => (
             <span
               key={type.name}
               style={{
@@ -117,7 +137,7 @@ const PokemonPage: NextPageWithLayout = () => {
 
         {specie && (
           <>
-            <div className="px-2 py-5 mt-5 bg-white rounded-md shadow-md">
+            <div className="p-5 mt-5 bg-white rounded-md shadow-md">
               <p className="text-center">
                 {
                   specie?.flavor_text_entries.filter(
@@ -139,12 +159,6 @@ const PokemonPage: NextPageWithLayout = () => {
                   <p className="sticky z-10 italic font-semibold">
                     {specie.base_happiness}%
                   </p>
-                  <div
-                    className="absolute top-0 left-0 z-0 w-full h-full bg-yellow-500/40 }"
-                    style={{
-                      width: `${specie.base_happiness}%`,
-                    }}
-                  />
                 </div>
               </div>
 
@@ -172,7 +186,7 @@ const PokemonPage: NextPageWithLayout = () => {
               <span>Weight</span>
             </div>
             <div className="p-3 italic font-semibold text-center bg-white rounded-md shadow-md text-blue-gray-700">
-              {pokemon.weight} KG
+              {pokemon?.weight} KG
             </div>
           </div>
 
@@ -182,11 +196,11 @@ const PokemonPage: NextPageWithLayout = () => {
               <span>Height</span>
             </div>
             <div className="p-3 italic font-semibold text-center bg-white rounded-md shadow-md text-blue-gray-700">
-              {pokemon.height.toString().length > 1
-                ? pokemon.height.toString().slice(0, 1) +
+              {pokemon && pokemon.height.toString().length > 1
+                ? pokemon?.height.toString().slice(0, 1) +
                   '.' +
                   pokemon.height.toString().slice(1)
-                : '0.' + pokemon.height}{' '}
+                : '0.' + pokemon?.height}{' '}
               M
             </div>
           </div>
@@ -195,7 +209,7 @@ const PokemonPage: NextPageWithLayout = () => {
         <div className="mt-5 text-lg font-bold text-center">
           <h3>Base Stats</h3>
           <div className="mt-5 space-y-2">
-            {pokemon.stats.map(({ base_stat, stat }, i) => (
+            {pokemon?.stats.map(({ base_stat, stat }, i) => (
               <Tooltip content={`${base_stat}%`} key={i}>
                 <div className="flex flex-col items-start gap-2 p-2 text-sm duration-100 bg-white rounded-md shadow-md text-blue-gray-700 hover:scale-105">
                   <span className="capitalize">{stat.name}</span>
@@ -220,6 +234,19 @@ const PokemonPage: NextPageWithLayout = () => {
           </div>
         </div>
       </div>
+
+      {related && (
+        <div className="my-5">
+          <div className="">
+            <h3 className="my-5 text-2xl font-semibold">Related</h3>
+            <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 grow">
+              {related?.pokemon_species.splice(0, 6).map(({ name, url }) => (
+                <PokemonCard key={url} name={name} />
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
